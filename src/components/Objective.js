@@ -3,34 +3,37 @@ import Task from './Task'
 
 const Objective = (props) => {
 
-    let { objectives } = props.state
+    let { objectives, tasks, addTasks } = props
     return (
 
 
         <>
+            {
+                objectives.map((obj) => {
+                    return (
 
-            {objectives.map((obj) => {
-                return (
+                        <div key={obj.id_objetivo} id={obj.id_objetivo} className="card">
 
-                    <div key={obj.objid} id={obj.objid} className="card">
-
-                        <h5 className="card-header">Objetivo: {obj.nome}</h5>
-                        <div className="card-body">
-                            <h5 className="card-title">Obs: {obj.obs}</h5>
-                            <p className="card-text">Prazo Objetivo: {obj.data}</p>
-                            <a href="#" className="btn btn-primary">Go somewhere</a>
+                            <h5 className="card-header">Objetivo: {obj.nome_objetivo}</h5>
+                            <div className="card-body">
+                                {/* add a comments field in the objectives table */}
+                                <h5 className="card-title">Obs: {obj.feito}</h5>
+                                <p className="card-text">Prazo Objetivo: {obj.prazo_final ? obj.prazo_final.toLocaleString('pt-BR') : ''}</p>
+                                <button type="button" className="btn btn-primary">Go somewhere</button>
+                            </div>
+                            <div className="card2 card" >
+                                <ul className="list-group list-group-flush">
+                                    <Task tasks={tasks} reminder={props.reminder} addTasks={addTasks} />
+                                </ul>
+                            </div>
                         </div>
-                        <div className="card2 card" >
-                            <ul className="list-group list-group-flush">
-                                <Task state={props.state} reminder={props.reminder} />
-                            </ul>
-                        </div>
-                    </div>
 
 
-                )
+                    )
 
-            })}
+                })
+            }
+
         </>
     )
 }

@@ -15,12 +15,12 @@ code {
 .App {
   display: grid;
   gap: 10px;
-  width: 95%;
+  width: 95vw;
   margin: auto;
 }
 
 .card {
-  width: 90vw;
+  width: 95vw;
   margin: auto;
 }
 
@@ -33,4 +33,29 @@ code {
   display: grid;
   gap: 10px;
   margin: auto;
+}
+
+.reminder {
+  border-left: 5px green solid !important;
+}
+
+.forminsert {
+  width: 95vw;
+  margin: auto;
+}
+
+.flexitensgap {
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.divtask {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 5px;
+  padding: 5px;
+  justify-content: space-between;
 }

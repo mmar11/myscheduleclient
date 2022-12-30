@@ -1,4 +1,3 @@
-import Task from "./Task"
 import Objectives from "./Objective"
 
 const UserLayout = (props) => {
@@ -6,7 +5,8 @@ const UserLayout = (props) => {
 
         <div key='usrlayout1' className="userlayout" >
 
-            <Objectives state={props.state} reminder={props.reminder} />
+            {<Objectives tasks={props.tasks} objectives={props.objectives} reminder={props.reminder} addTasks={props.addTasks}
+            />}
 
 
         </div >

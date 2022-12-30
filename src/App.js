@@ -1,39 +1,96 @@
 import Header from "./components/Header";
 import UserLayout from "./components/UserLayout";
-import { useState } from "react";
-
-
+import FormInsert from "./components/FormInsert";
+import { useState, useEffect } from "react";
+// import fetch from "node-fetch";
 
 function App() {
-const [state , setState1] = useState({tasks:[
-  {taskid: 11 , nome: 'teste tesk' , data: 2022-10-22, obs: "obs2"},
-  {taskid: 22 , nome: 'teste task' , data: 2022-10-22, obs: "obs2"},
-  {taskid: 33 , nome: 'teste task' , data: 2022-10-22, obs: "obs3"}]
-,
-objectives:[
-  {objid: 1 , nome: 'teste1' , data: '2022-10-21' , obs: "obs1"},
-  {objid: 2 , nome: 'teste2' , data: 2022-10-22, obs: "obs1"},
-  {objid: 3 , nome: 'teste3' , data: 2022-10-23, obs: "obs1"}]
+  const [showAddObjective, setShowAddObjective] = useState(false);
 
-})
+  const [tasks, setTasks] = useState(null);
+
+  const [objectives, setObjectives] = useState(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const dataObj = await fetchData("/objetivos");
+      setObjectives(dataObj);
+
+      const dataTasks = await fetchData("/tarefas/usr/14");
+      setTasks(dataTasks);
+    };
+    loadData();
+  }, []);
 
 
-const toggleReminder = (id)=> {
-  console.log(id)
+  const fetchData = async (url) => {
+    let res = await fetch(url).then((res) => res.json());
+    return res;
+  };
 
-}
+  const toggleReminder = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.taskid === id ? { ...task, reminde: !task.reminde } : task
+      )
+    );
+  };
 
+  // add Objectives
+  const addObjectives = (objective) => {
+    let objid = Math.floor(Math.random() * 100);
 
+    const newObjective = { objid, ...objective };
+
+    setObjectives([...objectives, newObjective]);
+  };
+
+  //add tasks
+  const addTasks = (task) => {
+    let taskid = Math.floor(Math.random() * 100);
+
+    const newTask = { taskid, ...task };
+
+    setTasks([...tasks, newTask]);
+  };
+
+  //show form
+
+  const showFormObj = () => {
+    setShowAddObjective(!showAddObjective);
+  };
 
   return (
-
     <div className="App">
-      <div><Header/></div>
-      
-      <div><UserLayout state={state} reminder={toggleReminder} /></div>
-      
-
-    
+      <div>
+        <Header />
+      </div>
+      <div>
+        {showAddObjective === true ? (
+          <FormInsert addObjectives={addObjectives} showFormObj={showFormObj} />
+        ) : (
+          <>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={showFormObj}>
+              Novo Objetivo
+            </button>
+          </>
+        )}
+      </div>
+      <div>
+        {objectives && tasks != null ? (
+          <UserLayout
+            tasks={tasks}
+            objectives={objectives}
+            reminder={toggleReminder}
+            addTasks={addTasks}
+          />
+        ) : (
+          <p>Loading Objetivos...</p>
+        )}
+      </div>
     </div>
   );
 }
