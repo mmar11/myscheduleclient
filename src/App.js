@@ -2,7 +2,7 @@ import Header from "./components/Header";
 import UserLayout from "./components/UserLayout";
 import FormInsert from "./components/FormInsert";
 import { useState, useEffect } from "react";
-// import fetch from "node-fetch";
+import './index.css';
 
 function App() {
   const [showAddObjective, setShowAddObjective] = useState(false);
